@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request, redirect, url_for
 
 app = Flask(__name__) 
 
@@ -6,28 +6,32 @@ app = Flask(__name__)
 def root():
     return render_template("welcome.html")
 
-@app.route("/login")
+@app.route("/success")
+def success():
+    return "Connecté avec succès!"
+
+
+@app.route("/login", methods=['GET', 'POST'])
 def login():
-    return render_template("login.html")
-
-def login(request):
-    if len(request.POST) > 0:
-        if 'email'not in request.POST or 'password' not in request.POST:
-            error = "Veuillez entrer une adresse de courriel et un mot de passe."
-            return render_template("login.html", {'error' : error})
+    if request.method == 'POST':
+        if 'email' not in request.form or 'password' not in request.form:
+            error = "Veuillez entrer une addresse mail et un mot de passe"
+            return render_template('login.html', error=error)
         else:
-            email = request.POST['email']
-            password = request.POST['password']
+            email = request.form['email']
+            password = request.form['password']
 
-            if password != 'sesame' or email != 'test@mail':
+            if email != 'test@mail' or password != 'test@mail':
                 error = "Adresse mail ou mot de passe erroné."
-                return render_template('login.html', {'error' : error})
+                return render_template('login.html', error=error)
             else:
-                return Flask.route('/welcome')
+                return redirect(url_for("root"))
     else:
         return render_template('login.html')
 
 
+
+
 #permet de lancer le serveur juste en appelant le fichier python 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)
