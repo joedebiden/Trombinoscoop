@@ -4,13 +4,13 @@ app = Flask(__name__)
 
 @app.route("/")
 def root():
-    return render_template('welcome.html') 
+    return render_template("base.html")
 
-@app.route("/welcome")
-def welcome():
-    return "<p>welcome</p>"
+@app.route("/login")
+def login():
+    return render_template("login.html")
 
 
 #permet de lancer le serveur juste en appelant le fichier python 
 if __name__ == '__main__':
-    app.ru
+    app.run()
