@@ -2,9 +2,11 @@
 {% block title  %}Connexion{% endblock %} 
 {% block bodyId %}loginPage{% endblock %}
 {% block content %}
-<form action="." method="get">
-    <p>
-        <label for="email">Courriel :</label>
+<form action="login" method="POST">
+    {%  if error %}
+    <p class="error">{{ error }}</p>
+    {% endif %}
+        <label for="email">Adresse mail :</label>
         <input name="email" id="email" size="30" type="email" />
     </p>
     <p>
