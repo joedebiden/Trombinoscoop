@@ -21,9 +21,14 @@ def login():
             email = request.form['email']
             password = request.form['password']
 
-            if email != 'test@mail' or password != 'test@mail':
-                error = "Adresse mail ou mot de passe erroné."
+            if email != 'test@mail':
+                error = "Adresse mail erroné."
                 return render_template('login.html', error=error)
+            
+            elif password != 'test@mail':
+                error = "Mot de passe erroné."
+                return render_template('login.html', error=error)
+        
             else:
                 return redirect(url_for("root"))
     else:
