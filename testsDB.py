@@ -2,6 +2,7 @@ from datetime import datetime
 from app import app, db
 from models import Personne
 
+
 # Créer la base de données
 with app.app_context():
     db.create_all()

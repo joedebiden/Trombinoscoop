@@ -1,6 +1,4 @@
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import Date, String, Integer
-
 
 db = SQLAlchemy()
 # Table de jointure pour la relation "amis"
@@ -11,7 +9,6 @@ amis_association = db.Table(
 )
 
 
-
 class Faculte(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     nom = db.Column(db.String(30), nullable=False)
@@ -19,8 +16,6 @@ class Faculte(db.Model):
 
     def __repr__(self):
         return f"<Faculte {self.nom}>"
-    
-
 
 
 class Personne(db.Model):
@@ -35,18 +30,16 @@ class Personne(db.Model):
     password = db.Column(db.String(60), nullable=False)  #ne pas stocker le mot de passe ene clair
 
     faculte_id = db.Column(db.Integer, db.ForeignKey('faculte.id'))
-    
+
     # Relation many-to-many avec la même table Personne (amis)
-    amis = db.relationship('Personne', 
+    amis = db.relationship('Personne',
                            secondary=amis_association,
                            primaryjoin=(amis_association.c.personne_id == id),
                            secondaryjoin=(amis_association.c.ami_id == id),
                            backref='amis_inverse')
 
-
     def __repr__(self):
         return f'<Personne {self.nom} {self.prenom}>'
-    
 
 
 class Employe(Personne):
@@ -56,17 +49,14 @@ class Employe(Personne):
 
     def __repr__(self):
         return f'<Employe {self.nom} {self.prenom}>'
-    
 
-    
+
 class Etudiant(Personne):
     cursus_id = db.Column(db.Integer, db.ForeignKey('cursus.id'))
     annee = db.Column(db.Integer)
 
     def __repr__(self):
         return f'<Etudiant {self.nom} {self.prenom}>'
-    
-
 
 
 class Message(db.Model):
@@ -82,9 +72,6 @@ class Message(db.Model):
         return f"<Message {self.contenu[:20]}...>"
 
 
-
-
-
 class Campus(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     nom = db.Column(db.String(30), nullable=False)
@@ -92,7 +79,6 @@ class Campus(db.Model):
 
     def __repr__(self):
         return f"<Campus {self.nom}>"
-
 
 
 class Fonction(db.Model):
@@ -103,12 +89,9 @@ class Fonction(db.Model):
         return f"<Fonction {self.intitule}>"
 
 
-
 class Cursus(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     intitule = db.Column(db.String(30), nullable=False)
 
     def __repr__(self):
         return f"<Cursus {self.intitule}>"
-
-

@@ -1,5 +1,4 @@
-from flask import render_template, request, redirect, url_for, flash
-from app import app
+from flask import Flask, render_template, request, redirect, url_for, flash
 
 @app.route("/")
 @app.route("/welcome")
