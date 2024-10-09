@@ -3,6 +3,23 @@ from sqlalchemy import Date, String, Integer
 
 
 db = SQLAlchemy()
+# Table de jointure pour la relation "amis"
+amis_association = db.Table(
+    'amis',
+    db.Column('personne_id', db.Integer, db.ForeignKey('personne.id'), primary_key=True),
+    db.Column('ami_id', db.Integer, db.ForeignKey('personne.id'), primary_key=True)
+)
+
+
+
+class Faculte(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    nom = db.Column(db.String(30), nullable=False)
+    couleur = db.Column(db.String(6))
+
+    def __repr__(self):
+        return f"<Faculte {self.nom}>"
+    
 
 
 
@@ -16,8 +33,16 @@ class Personne(db.Model):
     tel_fix = db.Column(db.String(20))
     tel_mobile = db.Column(db.String(20))
     password = db.Column(db.String(60), nullable=False)  #ne pas stocker le mot de passe ene clair
-    amis = db.relationship("Self")
-    faculte = db.ForeignKey('Faculte')
+
+    faculte_id = db.Column(db.Integer, db.ForeignKey('faculte.id'))
+    
+    # Relation many-to-many avec la même table Personne (amis)
+    amis = db.relationship('Personne', 
+                           secondary=amis_association,
+                           primaryjoin=(amis_association.c.personne_id == id),
+                           secondaryjoin=(amis_association.c.ami_id == id),
+                           backref='amis_inverse')
+
 
     def __repr__(self):
         return f'<Personne {self.nom} {self.prenom}>'
@@ -35,7 +60,7 @@ class Employe(Personne):
 
     
 class Etudiant(Personne):
-    cursus = db.ForeignKey('Cursus')
+    cursus_id = db.Column(db.Integer, db.ForeignKey('cursus.id'))
     annee = db.Column(db.Integer)
 
     def __repr__(self):
@@ -58,14 +83,6 @@ class Message(db.Model):
 
 
 
-class Faculte(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    nom = db.Column(db.String(30), nullable=False)
-    couleur = db.Column(db.String(6))
-
-    def __repr__(self):
-        return f"<Faculte {self.nom}>"
-    
 
 
 class Campus(db.Model):
@@ -95,9 +112,3 @@ class Cursus(db.Model):
         return f"<Cursus {self.intitule}>"
 
 
-
-
-
-
-#    def __repr__(self):
-#        return f'<Personne {self.nom} {self.prenom}>'
