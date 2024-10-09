@@ -1,19 +1,38 @@
-{% extends "base.html" %}
-{% block title  %}Connexion{% endblock %} 
-{% block bodyId %}loginPage{% endblock %}
-{% block content %}
-<form action="." method="get">
-    <p>
-        <label for="email">Courriel :</label>
-        <input name="email" id="email" size="30" type="email" />
-    </p>
-    <p>
-        <label for="password">Mot de passe :</label>
-        <input name="password" id="password" size="30" type="password" />
-    </p>
-    <p>
-        <input type="submit" value="Se connecter"></label>
-        <a href=" ">Créer un compte</a>
-    </p>
-</form>
-{% endblock %}
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="/static/css/style.css" rel="stylesheet">
+    <title>Connexion</title>
+</head>
+    <body id="login-page">
+        <header>
+            <h1>Connexion</h1>
+        </header>
+
+        <section id="form-content">
+            <form action="/login" method="POST">  
+                {% if error %}
+                    <span class="error">{{ error }}</span>
+                {% endif %}
+
+                <p>
+                    <label for="id_email">Adresse mail :</label>
+                    <input name="email" id="id_email" size="30" type="email" />
+                </p>
+                
+                <p>
+                    <label for="id_password">Mot de passe :</label>
+                    <input name="password" id="id_password" size="30" type="password" />
+                </p>
+
+                <p>
+                    <input type="submit" value="Se connecter">
+                    <a href="#">Créer un compte</a>
+                </p>
+
+            </form>
+        </section>
+    </body>
+</html>
