@@ -5,7 +5,6 @@ db = SQLAlchemy()
 
 
 
-
 class Personne(db.Model):
     id = db.Column(db.Integer, primary_key=True)  # Primary key
     matricule = db.Column(db.String(10), nullable=False)

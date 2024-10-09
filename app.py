@@ -1,6 +1,6 @@
-from flask import Flask, render_template, request, redirect, url_for
-from models import db, User
-
+from flask import Flask, render_template, request, redirect, url_for, flash
+from models import db, Personne
+from time import sleep
 
 app = Flask(__name__) 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///mydatabase.db'
@@ -18,7 +18,7 @@ def root():
 
 @app.route("/success")
 def success():
-    return "Connecté avec succès!"
+    return redirect(url_for("root"))
 
 
 
@@ -38,7 +38,7 @@ def login():
                 error = "Mot de passe erroné."
                 return render_template('login.html', error=error)  
             else:
-                return redirect(url_for("welcome"))
+                return redirect(url_for("success"))
     else:
         return render_template('login.html')
 
@@ -47,5 +47,4 @@ def login():
 
 #permet de lancer le serveur juste en appelant le fichier python 
 if __name__ == '__main__':
-    db.create_all()
     app.run(debug=True)
