@@ -9,9 +9,9 @@ with app.app_context():
     
 
 # Ajout d'un enregistrement
-def add_personne():
+def AddPersonne():
     with app.app_context():
-        nouvelle_personne = Personne(
+        AddPersonne = Personne(
             matricule='0123456789',
             nom='Dupont',
             prenom='Xavier',
@@ -24,14 +24,14 @@ def add_personne():
         print("Personne ajoutée :", nouvelle_personne.nom, nouvelle_personne.prenom)
 
 # Récupération des enregistrements
-def get_personnes():
+def GetPersonne():
     with app.app_context():
         personnes = Personne.query.all()
         for personne in personnes:  
             print(f"Nom: {personne.nom}, Prénom: {personne.prenom}, Matricule: {personne.matricule}")
 
 # Modification d'un enregistrement
-def update_personne(personne_id):
+def UpdatePersonne(personne_id):
     with app.app_context():
         personne = Personne.query.get(personne_id)  # id de la personne
         if personne:
@@ -42,7 +42,7 @@ def update_personne(personne_id):
             print(f"Personne avec l'ID {personne_id} non trouvée.")
 
 
-add_personne()  
-get_personnes()  
-update_personne(1) 
-get_personnes()  
+AddPersonne()
+GetPersonne()
+UpdatePersonne(1)
+GetPersonne()

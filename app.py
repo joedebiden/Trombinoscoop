@@ -1,13 +1,15 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
 from models import db, Personne
-from time import sleep
+from flask_admin import Admin
+from flask_sqlalchemy import SQLAlchemy
 
-app = Flask(__name__) 
+app = Flask(__name__)
+
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///mydatabase.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-db.init_app(app)
-
+db = SQLAlchemy(app)
+admin = Admin(app, name='My Admin Panel', template_mode='bootstrap4')
 
 
 @app.route("/")
@@ -36,7 +38,7 @@ def login():
                 return render_template('login.html', error=error)           
             elif password != 'test@mail':
                 error = "Mot de passe erroné."
-                return render_template('login.html', error=error)  
+                return render_template('login.html', error=error)
             else:
                 return redirect(url_for("success"))
     else:
