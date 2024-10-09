@@ -15,7 +15,7 @@ def add_personne():
             nom='dupont',
             prenom='xavier',
             date_naissance='1990-01-01',
-            emai='jean.dupont@mail.com',
+            email='jean.dupont@mail.com',
             password='password'
         )
         db.session.add(nouvelle_personne)
@@ -38,3 +38,4 @@ def update_personne():
             personne.nom = "Durand"
             db.session.commit()
 
+add_personne()
