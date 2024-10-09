@@ -19,9 +19,9 @@ def AddPersonne():
             email='jean.dupont@mail.com',
             password='password'  # Gère ce champ avec du hashing dans un projet réel
         )
-        db.session.add(nouvelle_personne)
+        db.session.add(AddPersonne)
         db.session.commit()
-        print("Personne ajoutée :", nouvelle_personne.nom, nouvelle_personne.prenom)
+        print("Personne ajoutée :", AddPersonne.nom, AddPersonne.prenom)
 
 # Récupération des enregistrements
 def GetPersonne():

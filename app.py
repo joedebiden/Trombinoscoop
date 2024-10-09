@@ -1,16 +1,17 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
+from flask_sqlalchemy import SQLAlchemy
 from models import db, Personne
 from flask_admin import Admin
-from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 
-app.config['SECRET_KEY'] = 'clé_secret'
+app.config['SECRET_KEY'] = 'clé_secrete'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///mydatabase.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-db = SQLAlchemy(app)
-admin = Admin(app, name='My Admin Panel', template_mode='bootstrap4')
+db.init_app(app)
+
+admin = Admin(app, name='Admin Panel', template_mode='bootstrap4')
 
 
 #
@@ -54,4 +55,6 @@ def login():
 
 #permet de lancer le serveur juste en appelant le fichier python
 if __name__ == '__main__':
+    #with app.app_context():
+        #db.create_all()
     app.run(debug=True)
