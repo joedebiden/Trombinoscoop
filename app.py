@@ -1,14 +1,21 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
 from models import db, Personne
-from time import sleep
+from flask_admin import Admin
+from flask_sqlalchemy import SQLAlchemy
 
-app = Flask(__name__) 
+app = Flask(__name__)
+
+app.config['SECRET_KEY'] = 'clé_secret'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///mydatabase.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-db.init_app(app)
+db = SQLAlchemy(app)
+admin = Admin(app, name='My Admin Panel', template_mode='bootstrap4')
 
 
+#
+# create views.py file to import all the route
+#
 
 @app.route("/")
 @app.route("/welcome")
@@ -25,7 +32,7 @@ def success():
 @app.route("/login", methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        if 'email' not in request.form  or 'password' not in request.form:
+        if 'email' not in request.form or 'password' not in request.form:
             error = "Veuillez entrer une addresse mail et un mot de passe"
             return render_template('login.html', error=error)
         else:
@@ -33,10 +40,10 @@ def login():
             password = request.form['password']
             if email != 'test@mail':
                 error = "Adresse mail erroné."
-                return render_template('login.html', error=error)           
+                return render_template('login.html', error=error)
             elif password != 'test@mail':
                 error = "Mot de passe erroné."
-                return render_template('login.html', error=error)  
+                return render_template('login.html', error=error)
             else:
                 return redirect(url_for("success"))
     else:
@@ -45,6 +52,6 @@ def login():
 
 
 
-#permet de lancer le serveur juste en appelant le fichier python 
+#permet de lancer le serveur juste en appelant le fichier python
 if __name__ == '__main__':
     app.run(debug=True)
