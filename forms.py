@@ -7,7 +7,7 @@ class LoginForm(FlaskForm):
     email = StringField('Mail : ', validators=[DataRequired(), Email()])
     password = PasswordField('Password : ', validators=[DataRequired()])
 
-    def validate(self):
+    def validate_login(self):
         if not FlaskForm.validate(self):
             return False
 
