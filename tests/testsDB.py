@@ -43,29 +43,7 @@ def UpdatePersonne(personne_id):
             print(f"Personne avec l'ID {personne_id} non trouvée.")
 
 
-def DeletePersonne(personne_id):
-    with app.app_context():
-        personne = Personne.query.get(personne_id)
-        if personne:
-            personne.matricule = '0123456789'
-            db.session.delete(personne)
-            print(f"Personne supprimée, au revoir {personne.nom}.")
+AddPersonne()
+GetPersonne()
+UpdatePersonne(1)
 
-
-
-
-xavier = Etudiant.objects.create(
-    matricule='0123456789',
-    nom='Dupont',
-    prenom='Xavier',
-    date_naissance=datetime.strptime('1990-01-01', '%Y-%m-%d').date(),
-)
-print(xavier)
-
-
-
-#AddPersonne()
-#GetPersonne()
-#UpdatePersonne(1)
-#GetPersonne()
-#DeletePersonne(1)

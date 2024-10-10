@@ -95,3 +95,21 @@ class Cursus(db.Model):
 
     def __repr__(self):
         return f"<Cursus {self.intitule}>"
+
+
+class LoginForm(forms.Form):
+    email = forms.EmailField(label='Mail : ')
+    password = forms.CharField(label='Password : ')
+
+    def clean(self):
+        cleaned_data = super(LoginForm, self).clean()
+        email = cleaned_data.get('email')
+        password = cleaned_data.get('password')
+
+        if email and password:
+            result = Personne.objects.filter(email=email, password=password)
+
+            if len(result) != 1:
+                raise forms.ValidationError("Adresse mail ou mot de passe erroné(e).")
+
+        return cleaned_data
