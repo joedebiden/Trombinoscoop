@@ -1,7 +1,8 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField
 from wtforms.validators import DataRequired, Email
-from models import Personne
+from models import Personne, Etudiant
+
 
 class LoginForm(FlaskForm):
     email = StringField('Mail : ', validators=[DataRequired(), Email()])
@@ -20,3 +21,9 @@ class LoginForm(FlaskForm):
             return False
 
         return True
+
+
+class StudentProfileForm(FlaskForm):
+    class Meta:
+        model = Etudiant
+        exclude = 'amis'
