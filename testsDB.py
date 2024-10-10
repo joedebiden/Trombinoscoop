@@ -1,6 +1,6 @@
 from datetime import datetime
 from app import app, db
-from models import Personne
+from models import *
 
 
 # Créer la base de données
@@ -51,8 +51,21 @@ def DeletePersonne(personne_id):
             db.session.delete(personne)
             print(f"Personne supprimée, au revoir {personne.nom}.")
 
-AddPersonne()
-GetPersonne()
-UpdatePersonne(1)
-GetPersonne()
-DeletePersonne(1)
+
+
+
+xavier = Etudiant.objects.create(
+    matricule='0123456789',
+    nom='Dupont',
+    prenom='Xavier',
+    date_naissance=datetime.strptime('1990-01-01', '%Y-%m-%d').date(),
+)
+print(xavier)
+
+
+
+#AddPersonne()
+#GetPersonne()
+#UpdatePersonne(1)
+#GetPersonne()
+#DeletePersonne(1)
