@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Création d'un profil</title>
+</head>
+<body>
+    <h1>Création d'un compte</h1>
+    <form method="POST" action="{{ url_for('register') }}">
+        {{ form.hidden_tag() }}  <!-- Pour générer un token CSRF -->
+
+        <p>
+            {{ form.nom.label }} {{ form.nom }}
+        </p>
+        <p>
+            {{ form.prenom.label }} {{ form.prenom }}
+        </p>
+        <p>
+            {{ form.matricule.label }} {{ form.matricule }}
+        </p>
+        <p>
+            {{ form.email.label }} {{ form.email }}
+        </p>
+        <p>
+            {{ form.tel_fix.label }} {{ form.tel_fix }}
+        </p>
+        <p>
+            {{ form.tel_mobile.label }} {{ form.tel_mobile }}
+        </p>
+        <p>
+            {{ form.password.label }} {{ form.password }}
+        </p>
+        <p>
+            {{ form.date_naissance.label }} {{ form.date_naissance }}
+        </p>
+        <p>
+            {{ form.faculte.label }} {{ form.faculte }}  <!-- Liste déroulante des facultés -->
+        </p>
+        <p>
+            {{ form.campus.label }} {{ form.campus }}  <!-- Liste déroulante des campus -->
+        </p>
+
+        <p>
+            {{ form.submit }}
+        </p>
+    </form>
+
+</body>
+</html>

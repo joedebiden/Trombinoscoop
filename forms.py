@@ -1,9 +1,9 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, DateField, SelectField
-from wtforms.fields.simple import TelField
-from wtforms.validators import DataRequired, Email
-from models import db, Personne, Etudiant
-
+from wtforms import StringField, PasswordField, DateField
+from wtforms.fields.simple import SubmitField
+from wtforms.validators import DataRequired, Email, Length
+from models import db, Personne, Faculte, Campus, Cursus
+from wtforms_alchemy import QuerySelectField
 
 class LoginForm(FlaskForm):
     email = StringField('Mail : ', validators=[DataRequired(), Email()])
@@ -25,28 +25,20 @@ class LoginForm(FlaskForm):
 
 
 class StudentProfileForm(FlaskForm):
-    # Champs de base
-    first_name = StringField('Prénom', validators=[DataRequired()])
-    last_name = StringField('Nom', validators=[DataRequired()])
-    birth_date = DateField('Date de naissance', format='%Y-%m-%d', validators=[DataRequired()])
-    matricule = StringField('Matricule', validators=[DataRequired()])
+    # attributs de la classe Personne
+    nom = StringField('Nom : ', validators=[DataRequired(), Length(max=30)])
+    prenom = StringField('Prenom : ', validators=[DataRequired(), Length(max=30)])
+    date_naissance = DateField('Date de naissance : ', validators=[DataRequired()])
+    matricule = StringField('Matricule : ', validators=[DataRequired(), Length(max=10)])
+    email = StringField('Mail : ', validators=[DataRequired(), Length(max=120)])
+    tel_fix = StringField('Telephone fixe: ')
+    tel_mobile = StringField('Telephone mobile: ')
+    password = PasswordField('Mot de passe : ', validators=[DataRequired(), Length(min=4, max=60)])
 
-    email = StringField('Email', validators=[DataRequired(), Email()])
-    phone = TelField('Téléphone fixe', validators=[DataRequired()])
-    mobile_phone = TelField('Téléphone mobile', validators=[DataRequired()])
-    password = PasswordField('Mot de passe', validators=[DataRequired()])
-
-    # Champs supplémentaires
-    faculte = StringField('Faculté', validators=[DataRequired()])
-    cursus = StringField('Cursus', validators=[DataRequired()])
-    annee = StringField('Année', validators=[DataRequired()])
-
-    # liste de séleciton
-    campus = SelectField('Campus', choices=[('Campus1', 'Campus 1'), ('Campus2', 'Campus 2')],
-                         validators=[DataRequired()])
-    fonction = SelectField('Fonction', choices=[('Etudiant', 'Étudiant'), ('Professeur', 'Professeur')],
-                           validators=[DataRequired()])
-
-    # Méthode save
-    def save(self, commit=True):
-        pass
+    #cursus = QuerySelectField('Cursus', query_factory=lambda: Cursus.query.all(), #a ajouter aussi meme condition que dans la route register
+                                #get_label='nom', allow_blank=False)
+    faculte = QuerySelectField('Faculté', query_factory=lambda: Faculte.query.all(),
+                               get_label='nom', allow_blank=False)
+    campus = QuerySelectField('Campus', query_factory=lambda: Campus.query.all(),
+                              get_label='nom', allow_blank=False)
+    submit = SubmitField('Créer un compte')

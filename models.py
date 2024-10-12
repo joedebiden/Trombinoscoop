@@ -30,6 +30,8 @@ class Personne(db.Model):
     password = db.Column(db.String(60), nullable=False)  #ne pas stocker le mot de passe ene clair
 
     faculte_id = db.Column(db.Integer, db.ForeignKey('faculte.id'))
+    campus_id = db.Column(db.Integer, db.ForeignKey('campus.id'))
+    # CURSUS a faire
 
     # Relation many-to-many avec la même table Personne (amis)
     amis = db.relationship('Personne',

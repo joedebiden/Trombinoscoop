@@ -47,3 +47,16 @@ AddPersonne()
 GetPersonne()
 UpdatePersonne(1)
 
+'''
+Valence Grenoble-Alpes	26000
+Paris Iles de France	75000
+Toulouse Haute Garonne	31000
+Lyonnaise Rhone	69000
+
+Valence	Rouge
+Toulouse	Rose
+Lyon	Jaune
+Grenoble	Bleu
+Paris	Vert
+'''
+
