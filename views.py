@@ -1,26 +1,32 @@
-from flask import render_template, request, redirect, url_for, flash
+from flask import render_template, request, redirect, url_for, flash, session
 from app import app
 from forms import LoginForm, StudentProfileForm
 from models import Personne, db
 
 
-@app.route("/")
-@app.route("/welcome")
-def root():
-    return render_template("welcome.html")
+@app.route("/", methods=["GET", "POST"])
+@app.route("/welcome", methods=["GET", "POST"])
+def welcome():
+    if 'logged_user_id' in session:
+        logged_user_id = session['logged_user_id']
+        logged_user = Personne.query.filter_by(id=logged_user_id).first()
+        return render_template('welcome.html', logged_user=logged_user)
+    else:
+        return redirect(url_for('login'))
 
-
-@app.route("/success")
-def success():
-    return redirect(url_for("root"))
-
-
-@app.route("/login", methods=['GET', 'POST'])
+@app.route("/login", methods=["GET", "POST"])
 def login():
     form = LoginForm()
-    if form.is_submitted() and form.validate_login():
-        return redirect(url_for('success'))
+    if form.validate_on_submit():  # Utilisation de validate_on_submit()
+        user_email = form.email.data   # Corrigé l'accès à l'email
+        logged_user = Personne.query.filter_by(email=user_email).first()
+        if logged_user:
+            session['logged_user_id'] = logged_user.id
+            return redirect(url_for('welcome'))
+        else:
+            flash('Invalid credentials', 'danger')
     return render_template('login.html', form=form)
+
 
 
 @app.route("/register", methods=['GET', 'POST'])
@@ -45,7 +51,7 @@ def register():
         db.session.add(nouvelle_personne)
         db.session.commit()  # Sauvegarder les modifications
 
-        flash('Compte créé avec succès', 'success')
+        flash('Compte créé avec succès')
         return redirect(url_for('login'))  # Rediriger après la soumission réussie
 
     return render_template('register.html', form=form)  # Rendre la page avec le formulaire
